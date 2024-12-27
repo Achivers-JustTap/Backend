@@ -22,66 +22,74 @@ let captainsSchema = new mongoose.Schema({
     },
     gender: {
         type: String,
-        enum: ['male', 'female', 'others'],
+        enum: ['Male', 'Female', 'Others'],
     },
     dob: {
         type: Date,
         required: [true, 'Date of birth is required'],
     },
     profilePicture: {
-        filename: String,
-        path: String,
+        filename: { type: String },
+        path: { type: String },
     },
     aadhar: {
-        type: String,
-        unique: true,
-        required: [true, 'Aadhar number is required'],
-    },
-    aadharFrontImage: {
-        filename: String,
-        path: String,
-    },
-    aadharBackImage: {
-        filename: String,
-        path: String,
+        number: {
+            type: String,
+            unique: true,
+            required: [true, 'Aadhar number is required'],
+        },
+        frontImage: {
+            filename: { type: String },
+            path: { type: String },
+        },
+        backImage: {
+            filename: { type: String },
+            path: { type: String },
+        },
     },
     pancard: {
-        type: String,
-        unique: true,
-        required: [true, 'Pancard number is required'],
-    },
-    pancardImage: {
-        filename: String,
-        path: String,
+        number: {
+            type: String,
+            unique: true,
+            required: [true, 'Pancard number is required'],
+        },
+        image: {
+            filename: { type: String },
+            path: { type: String },
+        },
     },
     drivingLicense: {
-        type: String,
-        unique: true,
-        required: [true, 'Driving license number is required'],
-    },
-    dlFrontImage: {
-        filename: String,
-        path: String,
-    },
-    dlBackImage: {
-        filename: String,
-        path: String,
-    },
-    dlExpiryDate: {
-        type: Date,
-        required: [true, 'Driving license expiry date is required'],
+        number: {
+            type: String,
+            unique: true,
+            required: [true, 'Driving license number is required'],
+        },
+        frontImage: {
+            filename: { type: String },
+            path: { type: String },
+        },
+        backImage: {
+            filename: { type: String },
+            path: { type: String },
+        },
+        expiryDate: {
+            type: Date,
+            // required: [true, 'Driving license expiry date is required'],
+        },
     },
     vehicleRc: {
-        type: String,
-        required: [true, 'Vehicle RC number is required'],
-    },
-    vehicleRcFrontImage: {
-        filename: String,
-        path: String,
-    },
-    vehicleRcBackImage: {
-        filename: String,
-        path: String,
+        number: {
+            type: String,
+            required: [true, 'Vehicle RC number is required'],
+        },
+        frontImage: {
+            filename: { type: String },
+            path: { type: String },
+        },
+        backImage: {
+            filename: { type: String },
+            path: { type: String },
+        },
     },
     socketId: {
         type: String,

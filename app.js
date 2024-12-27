@@ -7,6 +7,7 @@ const userRoutes = require('./routers/userRoutes');
 const captainRoutes = require('./routers/captainRoutes');
 const path = require('path');
 
+
 // Initialize DB Connection
 connectToDB();
 
@@ -20,7 +21,6 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // Routes
 app.use('/api/users', userRoutes);
 app.use('/api/captains', captainRoutes);
-app.use('/api/captainNumber',captainRoutes);
 // Global Error Handler
 app.use((err, req, res, next) => {
   console.error(err.stack);
