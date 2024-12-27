@@ -40,5 +40,5 @@ router.post('/searchMobileNumber', captainController.searchMobileNumber);
 router.get('/health', (req, res) => {
   res.status(200).json({ message: 'Captain API is running successfully!' });
 });
-
+// Exporting the router
 module.exports = router;
