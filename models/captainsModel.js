@@ -74,7 +74,6 @@ let captainsSchema = new mongoose.Schema({
         },
         expiryDate: {
             type: Date,
-            // required: [true, 'Driving license expiry date is required'],
         },
     },
     vehicleRc: {
@@ -91,6 +90,27 @@ let captainsSchema = new mongoose.Schema({
             path: { type: String },
         },
     },
+    isAadharValid: {
+        type: Boolean,
+        default: false,
+    },
+    isPanValid: {
+        type: Boolean,
+        default: false,
+    },
+    isDrivingLicenseValid: {
+        type: Boolean,
+        default: false,
+    },
+    isRcValid: {
+        type: Boolean,
+        default: false,
+    },
+    isValidCaptain: {
+        type: Boolean,
+        default: false,
+    },
+
     socketId: {
         type: String,
     },

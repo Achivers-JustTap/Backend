@@ -5,6 +5,7 @@ const cors = require("cors");
 const connectToDB = require('./db/db');
 const userRoutes = require('./routers/userRoutes');
 const captainRoutes = require('./routers/captainRoutes');
+const internalPortalRoutes = require('./routers/internalPortalRoutes');
 const path = require('path');
 
 
@@ -21,6 +22,14 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // Routes
 app.use('/api/users', userRoutes);
 app.use('/api/captains', captainRoutes);
+app.use('/api/internalpotal',internalPortalRoutes)
+
+// Start the server
+const PORT = process.env.PORT || 3002;
+
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+})
 // Global Error Handler
 app.use((err, req, res, next) => {
   console.error(err.stack);
