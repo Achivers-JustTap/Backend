@@ -6,6 +6,7 @@ const connectToDB = require('./db/db');
 const userRoutes = require('./routers/userRoutes');
 const captainRoutes = require('./routers/captainRoutes');
 const internalPortalRoutes = require('./routers/internalPortalRoutes');
+const mapsRouter = require('./routers/mapsRoutes');
 const path = require('path');
 
 
@@ -22,7 +23,8 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // Routes
 app.use('/api/users', userRoutes);
 app.use('/api/captains', captainRoutes);
-app.use('/api/internalpotal',internalPortalRoutes)
+app.use('/api/internalpotal',internalPortalRoutes);
+app.use('/api/maps', mapsRouter);
 
 // Start the server
 const PORT = process.env.PORT || 3002;
