@@ -1,11 +1,20 @@
-const User = require('../models/userModel');
+const userModel = require('../models/userModel');
 
-const createUser  = async (userData) => {
-    // Hash password if you have a password field
-    // userData.password = await bcrypt.hash(userData.password, 10);
+// Check if email already exists
+const checkEmailExists = async (email) => {
+    return await userModel.findOne({ email }) ? true : false;
+};
 
-    const user = new User(userData);
+// Check if phone number already exists
+const checkPhoneNumberExists = async (phoneNumber) => {
+    return await userModel.findOne({ phoneNumber }); // Returns the user object if found, or null otherwise
+};
+
+// Create a new user
+const createUser = async (userData) => {
+    const user = new userModel(userData);
     return await user.save();
 };
 
-module.exports = { createUser  };
+module.exports = { checkEmailExists, checkPhoneNumberExists, createUser };
+
