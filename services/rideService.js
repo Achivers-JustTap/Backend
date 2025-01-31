@@ -187,3 +187,31 @@ module.exports.endRide = async ({ rideId, captain }) => {
 
     return ride;
 };
+
+module.exports.submitRating = async ({ rideId, ratingType, rating, review }) => {
+    if (!rideId || !ratingType || !rating) {
+        throw new Error('Ride ID, ratingType, and rating are required');
+    }
+
+    // Find the ride
+    const ride = await rideModel.findById(rideId);
+
+    if (!ride) {
+        throw new Error('Ride not found');
+    }
+
+    // Update the rating depending on the rating type
+    if (ratingType === 'captain') {
+        ride.captainRating = { rating, review };
+    } else if (ratingType === 'user') {
+        ride.customerRating = { rating, review };
+    } else {
+        throw new Error('Invalid rating type. It must be either "captain" or "user".');
+    }
+
+    // Save the updated ride
+    await ride.save();
+
+    return ride;
+};
+

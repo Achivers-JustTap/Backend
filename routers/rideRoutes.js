@@ -1,6 +1,6 @@
 const express = require('express');
 const { body, query, validationResult } = require('express-validator');
-const rideController = require('../controllers/rideControllr');
+const rideController = require('../controllers/rideController');
 const router = express.Router();
 
 const validateRequest = (req, res, next) => {
@@ -55,5 +55,58 @@ router.post(
     validateRequest,
     rideController.endRide
 );
+
+router.post(
+    '/rate',
+    [
+        body('rideId').isMongoId().withMessage('Invalid ride ID'),
+        body('givenBy').isMongoId().withMessage('Invalid user ID'),
+        body('ratedFor').isMongoId().withMessage('Invalid rated user ID'),
+        body('ratingType').isString().isIn(['captain', 'user']).withMessage("Invalid ratingType. Use 'captain' or 'customer'."),
+        body('rating').isInt({ min: 1, max: 5 }).withMessage('Rating must be between 1 and 5'),
+        body('review').optional().isString().withMessage('Review must be a string'),
+    ],
+    validateRequest,
+    rideController.submitRating
+);
+
+router.get('/captain-rating/:captainId', async (req, res) => {
+    try {
+        const { captainId } = req.params;
+
+        const rides = await Ride.find({ captain: captainId, 'captainRating.rating': { $exists: true } });
+
+        if (rides.length === 0) {
+            return res.json({ averageRating: 0, totalReviews: 0 });
+        }
+
+        const totalReviews = rides.length;
+        const averageRating = rides.reduce((sum, ride) => sum + ride.captainRating.rating, 0) / totalReviews;
+
+        res.json({ averageRating, totalReviews });
+    } catch (error) {
+        res.status(500).json({ message: 'Server error', error: error.message });
+    }
+});
+
+router.get('/customer-rating/:customerId', async (req, res) => {
+    try {
+        const { customerId } = req.params;
+
+        const rides = await Ride.find({ user: customerId, 'customerRating.rating': { $exists: true } });
+
+        if (rides.length === 0) {
+            return res.json({ averageRating: 0, totalReviews: 0 });
+        }
+
+        const totalReviews = rides.length;
+        const averageRating = rides.reduce((sum, ride) => sum + ride.customerRating.rating, 0) / totalReviews;
+
+        res.json({ averageRating, totalReviews });
+    } catch (error) {
+        res.status(500).json({ message: 'Server error', error: error.message });
+    }
+});
+
 
 module.exports = router;

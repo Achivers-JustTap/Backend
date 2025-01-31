@@ -144,3 +144,49 @@ module.exports = {
         }
     },
 };
+
+module.exports.submitRating = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { rideId, givenBy, ratedFor, ratingType, rating, review } = req.body;
+
+    try {
+        
+        const ride = await rideService.findRideById(rideId);
+
+        if (!ride) {
+            return res.status(404).json({ message: 'Ride not found' });
+        }
+
+        if (ratingType === 'captain') {
+            ride.captainRating = { rating, review };
+        } else if (ratingType === 'user') {
+            ride.customerRating = { rating, review };
+        }
+
+       
+        await ride.save();
+
+       
+        if (ratingType === 'captain') {
+            sendMessageToSocketId(ride.captain.socketId, {
+                event: 'captain-rating-submitted',
+                data: { rideId, rating, review },
+            });
+        } else {
+            sendMessageToSocketId(ride.user.socketId, {
+                event: 'customer-rating-submitted',
+                data: { rideId, rating, review },
+            });
+        }
+
+        res.status(200).json({ message: 'Rating submitted successfully', ride });
+    } catch (err) {
+        console.error('Error submitting rating:', err.message);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
+
