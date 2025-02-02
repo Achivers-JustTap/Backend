@@ -58,7 +58,7 @@ const registerUser = async (req, res) => {
 };
 const checkMobileNumber = async (req, res) => {
     const { phoneNumber } = req.query;
-
+     console.log("phoneNumber:",phoneNumber)
     if (!phoneNumber) {
         return res.status(400).json({ message: 'Phone number is required.' });
     }
@@ -66,7 +66,7 @@ const checkMobileNumber = async (req, res) => {
     try {
         // Check if the phone number exists and retrieve the user information
         const user = await userService.checkPhoneNumberExists(phoneNumber);
-
+       console.log("User:",user);
         if (user) {
             console.log("User ", user)
             return res.status(200).json({
