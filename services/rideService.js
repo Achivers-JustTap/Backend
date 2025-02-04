@@ -20,27 +20,55 @@ async function getFare(pickup, destination) {
     const distanceTime = await mapService.getDistanceTime(pickup, destination);
 
     const baseFare = {
-        auto: 30,
-        car: 50,
-        moto: 20
+        auto: 40, 
+        car: 60,  
+        moto: 30, 
+        minicab: 70, 
+        maxicab: 90, 
+        xlcab: 100,  
+        reserved: 120, 
+        rentals: 150, 
+        parcel: 50,   
+        intercity: 200 
     };
 
     const perKmRate = {
-        auto: 10,
-        car: 15,
-        moto: 8
+        auto: 12, 
+        car: 18,  
+        moto: 10, 
+        minicab: 15, 
+        maxicab: 20,
+        xlcab: 25,  
+        reserved: 30,
+        rentals: 35, 
+        parcel: 10,   
+        intercity: 50 
     };
 
     const perMinuteRate = {
-        auto: 2,
-        car: 3,
-        moto: 1.5
+        auto: 3,  
+        car: 4,   
+        moto: 2,   
+        minicab: 4, 
+        maxicab: 5, 
+        xlcab: 6,  
+        reserved: 7, 
+        rentals: 8, 
+        parcel: 3,  
+        intercity: 10 
     };
 
     const fare = {
         auto: Math.round(baseFare.auto + ((distanceTime.distance.value / 1000) * perKmRate.auto) + ((distanceTime.duration.value / 60) * perMinuteRate.auto)),
         car: Math.round(baseFare.car + ((distanceTime.distance.value / 1000) * perKmRate.car) + ((distanceTime.duration.value / 60) * perMinuteRate.car)),
-        moto: Math.round(baseFare.moto + ((distanceTime.distance.value / 1000) * perKmRate.moto) + ((distanceTime.duration.value / 60) * perMinuteRate.moto))
+        moto: Math.round(baseFare.moto + ((distanceTime.distance.value / 1000) * perKmRate.moto) + ((distanceTime.duration.value / 60) * perMinuteRate.moto)),
+        minicab: Math.round(baseFare.minicab + ((distanceTime.distance.value / 1000) * perKmRate.minicab) + ((distanceTime.duration.value / 60) * perMinuteRate.minicab)),
+        maxicab: Math.round(baseFare.maxicab + ((distanceTime.distance.value / 1000) * perKmRate.maxicab) + ((distanceTime.duration.value / 60) * perMinuteRate.maxicab)),
+        xlcab: Math.round(baseFare.xlcab + ((distanceTime.distance.value / 1000) * perKmRate.xlcab) + ((distanceTime.duration.value / 60) * perMinuteRate.xlcab)),
+        reserved: Math.round(baseFare.reserved + ((distanceTime.distance.value / 1000) * perKmRate.reserved) + ((distanceTime.duration.value / 60) * perMinuteRate.reserved)),
+        rentals: Math.round(baseFare.rentals + ((distanceTime.distance.value / 1000) * perKmRate.rentals) + ((distanceTime.duration.value / 60) * perMinuteRate.rentals)),
+        parcel: Math.round(baseFare.parcel + ((distanceTime.distance.value / 1000) * perKmRate.parcel) + ((distanceTime.duration.value / 60) * perMinuteRate.parcel)),
+        intercity: Math.round(baseFare.intercity + ((distanceTime.distance.value / 1000) * perKmRate.intercity) + ((distanceTime.duration.value / 60) * perMinuteRate.intercity))
     };
 
     return fare;
@@ -214,4 +242,3 @@ module.exports.submitRating = async ({ rideId, ratingType, rating, review }) => 
 
     return ride;
 };
-

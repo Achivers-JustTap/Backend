@@ -72,7 +72,7 @@ const checkMobileNumber = async (req, res) => {
             return res.status(200).json({
                 message: 'Phone number exists.',
                 exists: true,
-                userId: user._id, // Include the userId in the response
+                user: user, // Include the userId in the response
             });
         } else {
             return res.status(200).json({

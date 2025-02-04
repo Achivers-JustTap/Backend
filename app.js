@@ -49,6 +49,7 @@ io.on('connection', (socket) => {
   socket.on('register-socket', async ({ userId, userType }) => {
       try {
           if (userType === 'user') {
+            console.log("register-socket",userId)
               await User.findByIdAndUpdate(userId, { socketId: socket.id });
           } else if (userType === 'captain') {
               await Captain.findByIdAndUpdate(userId, { socketId: socket.id });
@@ -60,15 +61,15 @@ io.on('connection', (socket) => {
   });
 
   // Disconnect socket
-  socket.on('disconnect', async () => {
-      try {
-          await User.findOneAndUpdate({ socketId: socket.id }, { socketId: null });
-          await Captain.findOneAndUpdate({ socketId: socket.id }, { socketId: null });
-          console.log(`Socket disconnected: ${socket.id}`);
-      } catch (err) {
-          console.error(`Error during socket disconnect: ${err.message}`);
-      }
-  });
+//   socket.on('disconnect', async () => {
+//       try {
+//           await User.findOneAndUpdate({ socketId: socket.id }, { socketId: null });
+//           await Captain.findOneAndUpdate({ socketId: socket.id }, { socketId: null });
+//           console.log(`Socket disconnected: ${socket.id}`);
+//       } catch (err) {
+//           console.error(`Error during socket disconnect: ${err.message}`);
+//       }
+//   });
 });
 
 // Error Handling Middleware
