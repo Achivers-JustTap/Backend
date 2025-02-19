@@ -3,13 +3,13 @@ const moment = require('moment');
 
 // Function to search mobile number
 const searchMobileNumber = async (req, res) => {
-  const { mobileNumber } = req.body;
+  const { mobileNumber } = req.query; // Change to req.query
 
   try {
     const captain = await Captain.findOne({ mobileNumber });
 
     if (captain) {
-      return res.status(200).json({ exists: true });
+      return res.status(200).json({ exists: true, captain }); // Return captain details
     } else {
       return res.status(200).json({ exists: false });
     }

@@ -35,7 +35,7 @@ router.post(
   captainController.storeCaptainInfo
 );
 
-router.post('/searchMobileNumber', captainController.searchMobileNumber);
+router.get('/searchMobileNumber', captainController.searchMobileNumber);
 
 router.get('/health', (req, res) => {
   res.status(200).json({ message: 'Captain API is running successfully!' });
