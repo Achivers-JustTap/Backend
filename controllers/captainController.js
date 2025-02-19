@@ -126,7 +126,36 @@ const storeCaptainInfo = async (req, res) => {
     }
 };
 
+// Function to get all captains data
+const getAllCaptains = async (req, res) => {
+    try {
+        const captains = await Captain.find();
+        res.status(200).json({ captains });
+    } catch (error) {
+        console.error('Error fetching captains:', error);
+        res.status(500).json({ message: 'Error fetching captains', error });
+    }
+};
+
+// Function to get captain data by ID
+const getCaptainById = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const captain = await Captain.findById(id);
+        if (!captain) {
+            return res.status(404).json({ message: 'Captain not found' });
+        }
+        res.status(200).json({ captain });
+    } catch (error) {
+        console.error('Error fetching captain:', error);
+        res.status(500).json({ message: 'Error fetching captain', error });
+    }
+};
+
 module.exports = {
   searchMobileNumber,
   storeCaptainInfo,
+  getAllCaptains,
+  getCaptainById
 };

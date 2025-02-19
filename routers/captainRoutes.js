@@ -37,8 +37,13 @@ router.post(
 
 router.post('/searchMobileNumber', captainController.searchMobileNumber);
 
+// New routes to fetch captains
+router.get('/captain-details', captainController.getAllCaptains);
+router.get('/captain-details/:id', captainController.getCaptainById);
+
 router.get('/health', (req, res) => {
   res.status(200).json({ message: 'Captain API is running successfully!' });
 });
+
 // Exporting the router
 module.exports = router;
