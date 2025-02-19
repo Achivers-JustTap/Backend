@@ -31,6 +31,9 @@ app.use('/api/captains', captainRoutes);
 app.use('/api/internalpotal', internalPortalRoutes);
 app.use('/api/maps', mapsRouter);
 app.use('/rides', rideRoutes);
+app.get('/health',(req,res)=>{
+    res.send("Healthy")
+})
 
 // Create HTTP Server and Initialize Socket.IO
 const server = http.createServer(app);
