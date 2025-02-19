@@ -35,7 +35,7 @@ router.post(
   captainController.storeCaptainInfo
 );
 
-router.post('/searchMobileNumber', captainController.searchMobileNumber);
+router.get('/searchMobileNumber', captainController.searchMobileNumber);
 
 // New routes to fetch captains
 router.get('/captain-details', captainController.getAllCaptains);
