@@ -7,6 +7,10 @@ const { Server } = require('socket.io');
 const connectToDB = require('./db/db');
 const userRoutes = require('./routers/userRoutes');
 const captainRoutes = require('./routers/captainRoutes');
+
+const loanRoutes = require('./routers/loanRoutes');
+
+
 const internalPortalRoutes = require('./routers/internalPortalRoutes');
 const mapsRouter = require('./routers/mapsRoutes');
 const rideRoutes = require('./routers/rideRoutes');
@@ -28,6 +32,8 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // Routes
 app.use('/api/users', userRoutes);
 app.use('/api/captains', captainRoutes);
+app.use('/api/loan', loanRoutes);
+
 app.use('/api/internalpotal', internalPortalRoutes);
 app.use('/api/maps', mapsRouter);
 app.use('/rides', rideRoutes);
