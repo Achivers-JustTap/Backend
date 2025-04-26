@@ -98,7 +98,7 @@ const storeCaptainInfo = async (req, res) => {
                     filename: files.drivingLicenseBack?.[0]?.filename,
                     path: files.drivingLicenseBack?.[0]?.path,
                 },
-                expiryDate: parsedExpiryDate.toDate(), // Use the parsed date for expiry
+                expiryDate: parsedExpiryDate.toDate(), 
             },
             vehicleRc: {
                 number: rcNumber,

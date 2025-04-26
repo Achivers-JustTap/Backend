@@ -11,12 +11,33 @@ const sendMessageToSocketId = (socketId, message) => {
 };
 
 module.exports = {
+    getFinalPrice: async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+
+
+        const { pickup, destination , vehicleType } = req.query;
+
+        try {
+            const fare = await rideService.getFinalPrice(pickup, destination,vehicleType);
+            res.status(200).json({ message: 'Fare calculated successfully', fare });
+        } catch (err) {
+            console.error('Error calculating fare:', err.message);
+            res.status(500).json({ message: 'Internal Server Error' });
+        }
+         
+    },
     // Get fare based on pickup and destination
     getFare: async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
+
+
 
         const { pickup, destination } = req.query;
 

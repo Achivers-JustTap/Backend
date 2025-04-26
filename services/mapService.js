@@ -42,7 +42,9 @@ module.exports.getDistanceTime = async (origin, destination) => {
                 throw new Error('No routes found');
             }
 
-            return response.data.rows[ 0 ].elements[ 0 ];
+            // return response.data.rows[ 0 ].elements[ 0 ];
+            return {distance : 14.87,
+                time: 38.85}
         } else {
             throw new Error('Unable to fetch distance and time');
         }
