@@ -24,12 +24,90 @@ const rideSchema = new mongoose.Schema({
         required: true,
     },
 
-    status: {
+    vehicleType: {
         type: String,
-        enum: [ 'pending', 'accepted', "ongoing", 'completed', 'cancelled' ],
-        default: 'pending',
+        enum: ['auto', 'car', 'moto', 'parcel'],
+        required: true,
     },
 
+    BookingAceptedTime: {
+        type: String ,     
+        
+    },
+
+    StartTime:{
+        type: String ,   
+    },
+    EndTime:{
+        type: String ,   
+    },
+    
+    status: {
+        type: String,
+        enum: ['pending', 'accepted', "ongoing", 'completed', 'cancelled'],
+        default: 'pending',
+    },
+ 
+    
+   
+    captainFare:{
+        type: Number,
+    },
+
+    baseFare: {
+        type: Number,
+        required: true,
+    },
+    distanceCost: {
+        type: Number,
+        required: true,
+    },
+    minuteCost: {
+        type: Number,
+        required: true,
+    },
+    waitingCost: {
+        type: Number,
+    },
+    platFormFee: {
+        type: Number,
+        required: true,
+
+    },
+    longPickupCost: {
+        type: Number,
+
+    },
+    cancellationCost: {
+        type: Number,
+    },
+    surgeCost: {
+        type: Number,
+
+    },
+    nightFareCost: {
+        type: Number,
+
+    },
+
+    Gst:{
+        type: Number,
+        required: true,   
+    },
+
+    commission: {
+        type: Number,
+        required: true,
+    },
+    handlingFee:{
+        type: Number,
+        required: true,
+    },
+
+    justTapFee:{
+        type: Number,
+    },
+   
     duration: {
         type: Number,
     }, // in seconds
@@ -40,6 +118,10 @@ const rideSchema = new mongoose.Schema({
 
     paymentID: {
         type: String,
+    },
+    paymentType:{
+        type: String,
+        enum: ['cash', 'online'],
     },
     orderId: {
         type: String,

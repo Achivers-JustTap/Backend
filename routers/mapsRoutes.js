@@ -20,6 +20,7 @@ router.get('/get-suggestions',
     mapController.getAutoCompleteSuggestions
 );
 
+
 // New route for fare calculation
 router.get('/calculate-fare',
     query('pickup').isString(),

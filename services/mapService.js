@@ -2,7 +2,7 @@ const axios = require('axios');
 const captainModel = require('../models/captainsModel');
 
 module.exports.getAddressCoordinate = async (address) => {
-    const apiKey ='AIzaSyDRWDCH-AIzaSyDRWDCH-MCMYS0ohxiCENn4v2NBCw1tZb8';
+    const apiKey ='AIzaSyDA7QxXq1FaHe3W4xLDgCF5XSB6n-RN8TA';
     const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyDRWDCH-MCMYS0ohxiCENn4v2NBCw1tZb8`;
 
     try {
@@ -23,12 +23,12 @@ module.exports.getAddressCoordinate = async (address) => {
     }
 }
 
-module.exports.getDistanceTime = async (origin, destination) => {
+module.exports.getDistanceTime =  async (origin, destination) => {
     if (!origin || !destination) {
         throw new Error('Origin and destination are required');
     }
 
-    const apiKey = 'AIzaSyDRWDCH-MCMYS0ohxiCENn4v2NBCw1tZb8';
+    const apiKey = 'AIzaSyDA7QxXq1FaHe3W4xLDgCF5XSB6n-RN8TA';
 
     const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${origin}&destinations=${encodeURIComponent(destination)}&key=${apiKey}`;
 
@@ -42,9 +42,8 @@ module.exports.getDistanceTime = async (origin, destination) => {
                 throw new Error('No routes found');
             }
 
-            // return response.data.rows[ 0 ].elements[ 0 ];
-            return {distance : 14.87,
-                time: 38.85}
+            return response.data.rows[ 0 ].elements[ 0 ];
+           
         } else {
             throw new Error('Unable to fetch distance and time');
         }
@@ -53,14 +52,15 @@ module.exports.getDistanceTime = async (origin, destination) => {
         console.error(err);
         throw err;
     }
-}
+
+ }
 
 module.exports.getAutoCompleteSuggestions = async (input) => {
     if (!input) {
         throw new Error('query is required');
     }
 
-    const apiKey ='AIzaSyDRWDCH-MCMYS0ohxiCENn4v2NBCw1tZb8';
+    const apiKey ='AIzaSyDA7QxXq1FaHe3W4xLDgCF5XSB6n-RN8TA';
     const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${input}&key=${apiKey}`;
 
 

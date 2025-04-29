@@ -39,12 +39,12 @@ const sendMessageToSocketId = (socketId, message) => {
     }
 };
 
-async function getFinalPrice(pickup, destination, vehicleType) {
-    if (!pickup || !destination) {
+module.exports.getFinalPrices = (pickup, destination, vehicleType) => {
+    if (!pickup || !destination || !vehicleType) {
         throw new Error('Pickup and destination are required');
     }
 
-    const distanceTime = await mapService.getDistanceTime(pickup, destination);
+    const distanceTime =  mapService.getDistanceTime(pickup, destination);
 
     const perKmRate = {
         auto: distanceTime.distance <= 8 ? 6.97 : 9.605,  
@@ -54,9 +54,9 @@ async function getFinalPrice(pickup, destination, vehicleType) {
         parcel: distanceTime.distance <= 8 ? 6.97 : 9.605
        
     };
-    
+    console.log(" distanceTime",distanceTime,"vehicletype",vehicleType,"pickup",pickup,"destination",destination,"perkmrate",perKmRate[vehicleType],"basefare",baseFare[vehicleType],"perminrate",perMinuteRate)
 
-     return Math.round(platformfee.vehicleType +baseFare.vehicleType + ((distanceTime.distance.value / 1000) * perKmRate.vehicleType) + ((distanceTime.duration.value / 60) * perMinuteRate.vehicleType) );
+     return distanceTime.distance * perKmRate[vehicleType] + distanceTime.time * perMinuteRate[vehicleType] + platformfee[vehicleType] + baseFare[vehicleType]
 
 };
 

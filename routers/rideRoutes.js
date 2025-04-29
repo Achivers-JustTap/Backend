@@ -32,6 +32,11 @@ router.get(
     validateRequest,
     rideController.getFinalPrice
 );
+router.get(
+    '/ratecard',
+    [query('vehicleType').isString().isIn(['auto', 'car', 'moto','parcel']).withMessage('Invalid vehicle type')],
+    rideController.getRateCard
+);
 
 router.get(
     '/get-fare',

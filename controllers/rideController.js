@@ -11,26 +11,23 @@ const sendMessageToSocketId = (socketId, message) => {
 };
 
 module.exports = {
-    getFinalPrice: async (req, res) => {
+    getFinalPrice:  (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
-
-
-
         const { pickup, destination , vehicleType } = req.query;
 
         try {
-            const fare = await rideService.getFinalPrice(pickup, destination,vehicleType);
-            res.status(200).json({ message: 'Fare calculated successfully', fare });
+            const fare =  rideService.getFinalPrices(pickup, destination,vehicleType);
+            res.status(200).json({ message: 'Fare calculated successfully', fare:fare });
         } catch (err) {
             console.error('Error calculating fare:', err.message);
             res.status(500).json({ message: 'Internal Server Error' });
         }
          
     },
-    // Get fare based on pickup and destination
+
     getFare: async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -48,6 +45,80 @@ module.exports = {
             console.error('Error calculating fare:', err.message);
             res.status(500).json({ message: 'Internal Server Error' });
         }
+    },
+    getRateCard:(req , res) => {
+        const {vehicleType} = req.query
+        console.log("Vehicle Type",vehicleType);
+        const ratecardbike = {
+            Basefare:10,
+            Distancefare1:6.97,
+            distancefare2:9.605,
+            Minutecost:0.222,
+            Waitingchargecost:1,
+            Platformfee:1.4,
+            Longpickup:4,
+            Cancellationfee:"0-10",
+            Surgefare:10,
+            Nightfare:25,
+            Justtapcommision:11
+            
+
+        }
+        const ratecardauto = {
+            Basefare:20,
+            Distancefare1:6.97,
+            distancefare2:9.605,
+            Minutecost:0.222,
+            Waitingchargecost:1,
+            Platformfee:1.4,
+            Longpickup:4,
+            Cancellationfee:"0-10",
+            Surgefare:10,
+            Nightfare:25,
+            Justtapcommision:11
+            
+        }
+        const ratecardcar = {
+            Basefare:30,
+            Distancefare1:6.97,
+            distancefare2:9.605,
+            Minutecost:0.222,
+            Waitingchargecost:1,
+            Platformfee:1.4,
+            Longpickup:4,
+            Cancellationfee:"0-10",
+            Surgefare:10,
+            Nightfare:25,
+            Justtapcommision:11
+            
+        }
+        const ratecardparcel = {
+            Basefare:30,
+            Distancefare1:6.97,
+            distancefare2:9.605,
+            Minutecost:0.222,
+            Waitingchargecost:1,
+            Platformfee:1.4,
+            Longpickup:4,
+            Cancellationfee:"0-10",
+            Surgefare:10,
+            Nightfare:25,
+            Justtapcommision:11
+            
+        }
+
+        let result; 
+        switch(vehicleType){
+            case 'car' : result = ratecardcar; break;
+            case 'moto' : result = ratecardbike;break;
+            case 'auto' : result = ratecardauto;break;
+            case 'parcel': result = ratecardparcel;break;
+            default: result = "Provide Specific Vehicle Type "
+        }
+
+       
+        res.status(200).json({ message: 'Fare calculated successfully', rateCard:result });
+
     },
 
     // Create a new ride
@@ -210,4 +281,3 @@ module.exports.submitRating = async (req, res) => {
         res.status(500).json({ message: 'Internal Server Error' });
     }
 };
-
