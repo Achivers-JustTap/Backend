@@ -7,7 +7,7 @@ let captainsSchema = new mongoose.Schema({
     },
     vehicleType: {
         type: String,
-        enum: ['car', 'bike', 'auto'],
+        enum: ['car', 'moto', 'auto'],
     },
     mobileNumber: {
         type: Number,
@@ -111,9 +111,24 @@ let captainsSchema = new mongoose.Schema({
         default: false,
     },
 
+     location: {
+        type: {
+            type: String, // "Point"
+            enum: ['Point'],
+         
+        },
+        coordinates: {
+            type: [Number], // [longitude, latitude]
+           
+        }
+    },
+
     socketId: {
         type: String,
     },
 }, { timestamps: true });
+
+captainsSchema.index({ location: '2dsphere' });
+
 
 module.exports = mongoose.model('Captain', captainsSchema);

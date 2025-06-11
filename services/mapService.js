@@ -3,15 +3,15 @@ const captainModel = require('../models/captainsModel');
 
 module.exports.getAddressCoordinate = async (address) => {
     const apiKey ='AIzaSyDA7QxXq1FaHe3W4xLDgCF5XSB6n-RN8TA';
-    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyDRWDCH-MCMYS0ohxiCENn4v2NBCw1tZb8`;
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyDA7QxXq1FaHe3W4xLDgCF5XSB6n-RN8TA`;
 
     try {
         const response = await axios.get(url);
-        console.log("Respnse ",response)
+       
         if (response.data.status === 'OK') {
             const location = response.data.results[ 0 ].geometry.location;
             return {
-                ltd: location.lat,
+                lat: location.lat,
                 lng: location.lng
             };
         } else {
@@ -77,11 +77,14 @@ module.exports.getAutoCompleteSuggestions = async (input) => {
     }
 }
 
-module.exports.getCaptainsInTheRadius = async (ltd, lng, radius) => {
+module.exports.getCaptainsInTheRadius = async (lat, lng, radius) => {
+
+    //radius in kilometers
+
     const captains = await captainModel.find({
         location: {
             $geoWithin: {
-                $centerSphere: [ [ ltd, lng ], radius / 6371 ]
+                $centerSphere: [ [ lng,lat ], radius / 6371 ]
             }
         }
     });

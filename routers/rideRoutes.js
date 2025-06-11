@@ -49,21 +49,35 @@ router.get(
 );
 
 router.post(
-    '/confirm',
-    [body('rideId').isMongoId().withMessage('Invalid ride ID')],
+    '/accept-ride',
+    [
+        body('rideId').isMongoId().withMessage('Invalid ride ID'),
+        body('captainId').isMongoId().withMessage('Invalid captain ID'),
+    ],
     validateRequest,
-    rideController.confirmRide
+    rideController.acceptRide
 );
 
+
 router.post(
-    '/start-ride',
-    [
+    '/confirm',
+    [ 
         body('rideId').isMongoId().withMessage('Invalid ride ID'),
         body('otp').isString().isLength({ min: 6, max: 6 }).withMessage('Invalid OTP'),
     ],
     validateRequest,
-    rideController.startRide
+    rideController.confirmRide
 );
+
+// router.post(
+//     '/start-ride',
+//     [
+//         body('rideId').isMongoId().withMessage('Invalid ride ID'),
+//         body('otp').isString().isLength({ min: 6, max: 6 }).withMessage('Invalid OTP'),
+//     ],
+//     validateRequest,
+//     rideController.startRide
+// );
 
 router.post(
     '/end-ride',
