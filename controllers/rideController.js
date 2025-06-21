@@ -191,7 +191,7 @@ acceptRide: async (req, res) => {
             return res.status(400).json({ message: 'Captain already has an accepted or ongoing ride' });
         }
 
-        const ride = await rideModel.findById(rideId).select('+otp');
+        const ride = await rideModel.findById(rideId).select('+otp').populate('user','name socketId phone');
         console.log('Ride found:', ride); // Debugging ride output
 
         if (!ride) {

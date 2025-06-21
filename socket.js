@@ -78,22 +78,22 @@ function initializeSocket(server){
     }
   });
 
-  socket.on('ride-confirmed', async (data) => {
-    const { rideId, userSocketId } = data;
+  // socket.on('ride-confirmed', async (data) => {
+  //   const { rideId, userSocketId } = data;
 
-    try {
-      console.log(`Ride confirmed: ${rideId}`);
+  //   try {
+  //     console.log(`Ride confirmed: ${rideId}`);
 
-      if (userSocketId) {
-        sendMessageToSocketId(userSocketId, {
-          event: 'ride-confirmed',
-          data: { message: 'Your ride has been confirmed!' }
-        });
-      }
-    } catch (err) {
-      console.error('Error handling ride-confirmed event:', err);
-    }
-  });
+  //     if (userSocketId) {
+  //       sendMessageToSocketId(userSocketId, {
+  //         event: 'ride-confirmed',
+  //         data: { message: 'Your ride has been confirmed!' }
+  //       });
+  //     }
+  //   } catch (err) {
+  //     console.error('Error handling ride-confirmed event:', err);
+  //   }
+  // });
 
   socket.on('ride-confirmed', async (data) => {
     const { rideId, userSocketId } = data;
