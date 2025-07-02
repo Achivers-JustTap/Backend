@@ -30,15 +30,7 @@ const platformfee = {
    
 }
 
-// Helper function to emit messages via WebSocket
-const sendMessageToSocketId = (socketId, message) => {
-    //charitha from 37 to 43
-    if (socketId && io && typeof io.to === 'function') {
-        io.to(socketId).emit(message.event, message.data);
-    } else {
-        console.warn(`Cannot send message, invalid socketId or io: socketId=${socketId}`);
-    }
-};
+
 
 module.exports.getFinalPrices = (pickup, destination, vehicleType) => {
     if (!pickup || !destination || !vehicleType) {
@@ -155,35 +147,6 @@ module.exports.createRide = async ({ user, pickup, destination, vehicleType }) =
 
     captainsInRadius = captainsInRadius.filter(captain => !busyCaptains.includes(captain._id));
 
-    for (const captain of captainsInRadius) {
-        if (captain.socketId) {
-            // Get distance and time from captain location to pickup
-            const captainLocation = `${captain.location.coordinates[1]},${captain.location.coordinates[0]}`;
-            const distanceTimeCaptainToPickup = await mapService.getDistanceTime(captainLocation, pickup);
-
-           
-            sendMessageToSocketId(captain.socketId, {
-                event: 'new-ride',
-                data: {
-                    rideId: ride._id,
-                    pickup,
-                    destination,
-                    vehicleType,
-                    fare,
-                    pickupToDestination: {
-                        distance: distanceTime.distance,
-                        duration: distanceTime.duration
-                    },
-                    captainToPickup: {
-                        distance: distanceTimeCaptainToPickup.distance,
-                        duration: distanceTimeCaptainToPickup.duration
-                    }
-                }
-            });
-        } else {
-            console.warn(`Captain with id ${captain._id} has no socketId, skipping notification.`);
-        }
-    }
 
     return ride;
 };
@@ -224,43 +187,6 @@ module.exports.confirmRide = async ({ rideId, otp, captain }) => {
     }
 };
 
-// Start a ride
-// module.exports.startRide = async ({ rideId, otp, captain }) => {
-//     if (!rideId || !otp) {
-//         throw new Error('Ride id and OTP are required');
-//     }
-
-//     const ride = await rideModel.findOne({
-//         _id: rideId
-//     }).populate('user').populate('captain').select('+otp');
-
-//     if (!ride) {
-//         throw new Error('Ride not found');
-//     }
-
-//     if (ride.status !== 'accepted') {
-//         throw new Error('Ride not accepted');
-//     }
-
-//     if (ride.otp !== otp) {
-//         throw new Error('Invalid OTP');
-//     }
-
-//     // await rideModel.findOneAndUpdate(
-//     //     { _id: rideId },
-//     //     { status: 'ongoing' }
-//     // );
-
-//     // Notify the user that the ride has started
-//     sendMessageToSocketId(ride.user.socketId, {
-//         event: 'ride-started',
-//         data: ride
-//     });
-
-//     return ride;
-// };
-
-// End a ride
 module.exports.endRide = async function (rideId) {
     try {
         const ride = await rideModel.findById(rideId);

@@ -123,9 +123,7 @@ let captainsSchema = new mongoose.Schema({
         }
     },
 
-    socketId: {
-        type: String,
-    },
+
 }, { timestamps: true });
 
 captainsSchema.index({ location: '2dsphere' });

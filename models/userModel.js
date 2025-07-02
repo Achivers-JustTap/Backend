@@ -35,9 +35,7 @@ const userSchema = new mongoose.Schema({
         enum: ['Male', 'Female', 'Other'],
         message: 'Gender must be either Male, Female, or Other.'
     },
-    socketId: {
-        type: String
-    }
+   
 });
 
 module.exports = mongoose.model("User", userSchema);

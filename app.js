@@ -3,11 +3,9 @@ dotenv.config();
 const express = require('express');
 const cors = require('cors');
 const http = require('http');
-const { Server } = require('socket.io');
 const connectToDB = require('./db/db');
 const userRoutes = require('./routers/userRoutes');
 const captainRoutes = require('./routers/captainRoutes');
-const { initializeSocket } = require('./socket');
 const loanRoutes = require('./routers/loanRoutes');
 
 
@@ -41,48 +39,8 @@ app.get('/health',(req,res)=>{
     res.send("Healthy")
 })
 
-// Create HTTP Server and Initialize Socket.IO
+
 const server = http.createServer(app);
-// const io = new Server(server, {
-//     cors: {
-//         origin: '*', // Adjust for production
-//         methods: ['GET', 'POST'],
-//     },
-// });
-
-// // WebSocket Logic
-// io.on('connection', (socket) => {
-//   //console.log(`New client connected: ${socket.id}`);
-
-//   // Register socket to user or captain
-//   socket.on('register-socket', async ({ userId, userType }) => {
-//       try {
-//           if (userType === 'user') {
-//            // console.log("register-socket",userId)
-//               await User.findByIdAndUpdate(userId, { socketId: socket.id });
-//           } else if (userType === 'captain') {
-//               await Captain.findByIdAndUpdate(userId, { socketId: socket.id });
-//           }
-//          // console.log(`Socket registered for ${userType} with ID: ${userId}`);
-//       } catch (err) {
-//           console.error(`Error registering socket: ${err.message}`);
-//       }
-//   });
-
-//   // Disconnect socket
-// //   socket.on('disconnect', async () => {
-// //       try {
-// //           await User.findOneAndUpdate({ socketId: socket.id }, { socketId: null });
-// //           await Captain.findOneAndUpdate({ socketId: socket.id }, { socketId: null });
-// //           console.log(`Socket disconnected: ${socket.id}`);
-// //       } catch (err) {
-// //           console.error(`Error during socket disconnect: ${err.message}`);
-// //       }
-// //   });
-// });
-
-// Initialize socket with server
-initializeSocket(server);
 
 // Error Handling Middleware
 app.use((err, req, res, next) => {
